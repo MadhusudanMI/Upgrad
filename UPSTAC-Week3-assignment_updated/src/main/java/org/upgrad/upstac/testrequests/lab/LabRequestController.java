@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.upgrad.upstac.config.security.UserLoggedInService;
 import org.upgrad.upstac.exception.AppException;
-import org.upgrad.upstac.testrequests.RequestStatus;
-import org.upgrad.upstac.testrequests.TestRequest;
-import org.upgrad.upstac.testrequests.TestRequestQueryService;
-import org.upgrad.upstac.testrequests.TestRequestUpdateService;
+import org.upgrad.upstac.testrequests.*;
 import org.upgrad.upstac.testrequests.flow.TestRequestFlowService;
 import org.upgrad.upstac.users.User;
 
@@ -48,7 +45,6 @@ public class LabRequestController {
     private UserLoggedInService userLoggedInService;
 
 
-
     @GetMapping("/to-be-tested")
     @PreAuthorize("hasAnyRole('TESTER')")
     public List<TestRequest> getForTests()  {
@@ -72,8 +68,8 @@ public class LabRequestController {
         //Make use of the findByTester() method from testRequestQueryService class
         // For reference check the method getForTests() method from LabRequestController class
 
-        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED,"Not implemented"); // replace this line with your code
-
+        User tester =userLoggedInService.getLoggedInUser();
+        return testRequestQueryService.findByTester(tester);
 
     }
 
